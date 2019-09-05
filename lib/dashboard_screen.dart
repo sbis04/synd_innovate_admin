@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -11,6 +12,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  int currentPage = 0;
   Future getProducts() async {
     QuerySnapshot productQuery =
         await documentReference.collection('products').getDocuments();
@@ -44,78 +46,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFFFFA700),
-        elevation: 5.0,
-        // child: Icon(
-        //   Icons.account_circle,
-        //   color: Colors.black87,
-        //   size: 70,
-        // ),
-        child: Stack(
-          children: <Widget>[
-            CircleAvatar(
-              radius: 50,
-              backgroundColor: Colors.transparent,
-              child: Icon(Icons.account_circle, size: 50),
-            ),
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                imageUrl,
-              ),
-              radius: 50,
-              backgroundColor: Colors.transparent,
-            ),
-          ],
-        ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return ProfileScreen();
-              },
-            ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: BottomAppBar(
-        color: Color(0xFFF6711D),
-        child: new Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: FutureBuilder(
-                future: getUserData(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Text(
-                      'Leads',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    );
-                  } else if (snapshot.hasData) {
-                    int numberOfLeads = snapshot.data['leads'];
-
-                    return Text(
-                      numberOfLeads.toString() + ' Leads',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    );
-                  } else {
-                    return Text(
-                      'No data',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    );
-                  }
-                },
-              ),
-            )
-          ],
-        ),
-      ),
-      body: Stack(
+    List<Widget> _widgetOptions = <Widget>[
+      Stack(
         fit: StackFit.expand,
         children: <Widget>[
           Container(
@@ -217,6 +149,120 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
+      Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xCCEFC622),
+            ),
+          ),
+        ],
+      )
+    ];
+
+    return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Color(0xFFFFA700),
+      //   elevation: 5.0,
+      //   // child: Icon(
+      //   //   Icons.account_circle,
+      //   //   color: Colors.black87,
+      //   //   size: 70,
+      //   // ),
+      //   child: Stack(
+      //     children: <Widget>[
+      //       CircleAvatar(
+      //         radius: 50,
+      //         backgroundColor: Colors.transparent,
+      //         child: Icon(Icons.account_circle, size: 50),
+      //       ),
+      //       CircleAvatar(
+      //         backgroundImage: NetworkImage(
+      //           imageUrl,
+      //         ),
+      //         radius: 50,
+      //         backgroundColor: Colors.transparent,
+      //       ),
+      //     ],
+      //   ),
+      //   onPressed: () {
+      //     Navigator.of(context).push(
+      //       MaterialPageRoute(
+      //         builder: (context) {
+      //           return ProfileScreen();
+      //         },
+      //       ),
+      //     );
+      //   },
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: FancyBottomNavigation(
+        barBackgroundColor: Color(0xFFF6711D),
+        inactiveIconColor: Colors.black54,
+        activeIconColor: Colors.black,
+        textColor: Colors.white,
+        circleColor: Color(0xFFFFCD00),
+        initialSelection: currentPage,
+        tabs: [
+          // TabData(iconData: Icons.add, title: "ADD"),
+          TabData(
+            iconData: Icons.dashboard,
+            title: "Dashboard",
+          ),
+          TabData(iconData: Icons.account_circle, title: "Profile")
+        ],
+        onTabChangedListener: (position) {
+          setState(() {
+            currentPage = position;
+            // if (position == 0) {
+            //   // _fabVisibility = false;
+            //   _fabText = 'DELETE';
+            //   _fabIcon = Icon(Icons.delete_outline);
+            // } else if (position == 1) {
+            //   // _fabVisibility = true;
+            //   _fabText = 'SAVE';
+            //   _fabIcon = Icon(Icons.save);
+            // }
+          });
+        },
+      ),
+      // BottomAppBar(
+      //   color: Color(0xFFF6711D),
+      //   child: new Row(
+      //     mainAxisSize: MainAxisSize.max,
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: <Widget>[
+      //       Padding(
+      //         padding: const EdgeInsets.all(15.0),
+      //         child: FutureBuilder(
+      //           future: getUserData(),
+      //           builder: (_, snapshot) {
+      //             if (snapshot.connectionState == ConnectionState.waiting) {
+      //               return Text(
+      //                 'Leads',
+      //                 style: TextStyle(color: Colors.white, fontSize: 20),
+      //               );
+      //             } else if (snapshot.hasData) {
+      //               int numberOfLeads = snapshot.data['leads'];
+
+      //               return Text(
+      //                 numberOfLeads.toString() + ' Leads',
+      //                 style: TextStyle(color: Colors.white, fontSize: 20),
+      //               );
+      //             } else {
+      //               return Text(
+      //                 'No data',
+      //                 style: TextStyle(color: Colors.white, fontSize: 20),
+      //               );
+      //             }
+      //           },
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      // ),
+      body: _widgetOptions[currentPage],
     );
   }
 }
