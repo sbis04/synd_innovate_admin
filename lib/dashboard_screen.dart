@@ -329,125 +329,124 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (_, index) {
-                        String userName = snapshot.data[index].data['name'];
-                        print(userName);
-                        int level = snapshot.data[index].data['level'];
-                        int leads = snapshot.data[index].data['leads'];
-                        String userImageUrl =
-                            snapshot.data[index].data['image_url'];
-                        String gender = snapshot.data[index].data['gender'];
-                        String address = snapshot.data[index].data['address'];
-                        int rewardPoints =
-                            snapshot.data[index].data['reward_points'];
-                        String partnerLevel;
+                  return ListView.builder(
+                    padding: EdgeInsets.only(top: 40, bottom: 40),
+                    physics: BouncingScrollPhysics(),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (_, index) {
+                      String userName = snapshot.data[index].data['name'];
+                      print(userName);
+                      int level = snapshot.data[index].data['level'];
+                      int leads = snapshot.data[index].data['leads'];
+                      String userImageUrl =
+                          snapshot.data[index].data['image_url'];
+                      String gender = snapshot.data[index].data['gender'];
+                      String address = snapshot.data[index].data['address'];
+                      int rewardPoints =
+                          snapshot.data[index].data['reward_points'];
+                      String partnerLevel;
 
-                        String levelAsset;
+                      String levelAsset;
 
-                        switch (level) {
-                          case 0:
-                            partnerLevel = 'No Level';
-                            levelAsset = '';
-                            break;
+                      switch (level) {
+                        case 0:
+                          partnerLevel = 'No Level';
+                          levelAsset = '';
+                          break;
 
-                          case 1:
-                            partnerLevel = 'Level 1 Partner';
-                            levelAsset = 'medal_1.png';
-                            break;
+                        case 1:
+                          partnerLevel = 'Level 1 Partner';
+                          levelAsset = 'medal_1.png';
+                          break;
 
-                          case 2:
-                            partnerLevel = 'Level 2 Partner';
-                            levelAsset = 'medal_2.png';
-                            break;
+                        case 2:
+                          partnerLevel = 'Level 2 Partner';
+                          levelAsset = 'medal_2.png';
+                          break;
 
-                          default:
-                            partnerLevel = 'Top Level Parther';
-                            levelAsset = 'medal_3.png';
-                        }
+                        default:
+                          partnerLevel = 'Top Level Partner';
+                          levelAsset = 'medal_3.png';
+                      }
 
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
-                          child: InkWell(
-                            child: Card(
-                              elevation: 8,
-                              color: Color(0xFFFFCD00),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Text(
-                                            userName,
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
+                        child: InkWell(
+                          child: Card(
+                            elevation: 8,
+                            color: Color(0xFFFFCD00),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          userName,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(height: 8),
-                                          Text(
-                                            partnerLevel,
-                                            style: TextStyle(
-                                              color: Color(0xFF3100FF),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                        ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          partnerLevel,
+                                          style: TextStyle(
+                                            color: Color(0xFF3100FF),
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            leads.toString() + ' Leads',
-                                            style: TextStyle(
-                                              color: Color(0xFF006CFF),
-                                              fontSize: 18,
-                                            ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          leads.toString() + ' Leads',
+                                          style: TextStyle(
+                                            color: Color(0xFF006CFF),
+                                            fontSize: 18,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: levelAsset != ''
+                                        ? Image.asset(
+                                            'assets/images/$levelAsset',
+                                            color: Color(0xFF3100FF),
+                                            height: 120,
                                           )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: levelAsset != ''
-                                          ? Image.asset(
-                                              'assets/images/$levelAsset',
-                                              color: Color(0xFF3100FF),
-                                              height: 120,
-                                            )
-                                          : Text(''),
-                                    ),
-                                  ],
-                                ),
+                                        : Text(''),
+                                  ),
+                                ],
                               ),
                             ),
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileScreen(
-                                    userImageUrl: userImageUrl,
-                                    userName: userName,
-                                    gender: gender,
-                                    address: address,
-                                    level: level,
-                                    leads: leads,
-                                    levelString: partnerLevel,
-                                    rewardPoints: rewardPoints,
-                                  ),
-                                ),
-                              );
-                            },
                           ),
-                        );
-                      },
-                    ),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ProfileScreen(
+                                  userImageUrl: userImageUrl,
+                                  userName: userName,
+                                  gender: gender,
+                                  address: address,
+                                  level: level,
+                                  leads: leads,
+                                  levelString: partnerLevel,
+                                  rewardPoints: rewardPoints,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
                   );
                 }
               },
