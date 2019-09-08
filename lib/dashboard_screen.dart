@@ -13,6 +13,15 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _autoValidate = false;
+  FocusNode _productFocusNode = FocusNode();
+  FocusNode _rewardFocusNode = FocusNode();
+
+  String newProduct;
+  String newRewardPoint;
+
   int currentPage = 0;
   Future getProducts() async {
     QuerySnapshot productQuery =
@@ -28,22 +37,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return usersData.documents;
   }
 
-  // void _addUserData() {
-  //   DocumentReference documentReferencer =
-  //       documentReference.collection('user_data').document(uid);
+  void _addProduct() async {
+    DocumentReference documentReferencer =
+        documentReference.collection('products').document();
 
-  //   Map<String, dynamic> data = <String, dynamic>{
-  //     "name": name,
-  //     "leads": 10,
-  //     "reward_points": 4800,
-  //     "partner_level": 1,
-  //     "green_check": 'true',
-  //   };
+    Map<String, dynamic> data = <String, dynamic>{
+      "name": newProduct,
+      "reward_points": int.tryParse(newRewardPoint),
+    };
 
-  //   documentReferencer.setData(data).whenComplete(() {
-  //     print("document added");
-  //   }).catchError((e) => print(e));
-  // }
+    await documentReferencer.setData(data).whenComplete(() {
+      print("product added");
+    }).catchError((e) => print(e));
+  }
+
+  String validateProduct(String value) {
+    if (value.length == 0)
+      return 'Product name cannot be empty';
+    else
+      return null;
+  }
+
+  void _validateInputs() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+    } else {
+      _autoValidate = true;
+    }
+  }
+
+  String validateRewardPoints(String value) {
+    if (value.length == 0)
+      return 'Reward points cannot be empty';
+    else
+      return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,6 +187,140 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
           SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'New Product Details',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 50),
+                    Form(
+                      key: _formKey,
+                      autovalidate: _autoValidate,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            child: TextFormField(
+                              keyboardType: TextInputType.text,
+                              cursorColor: Colors.black,
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
+                              focusNode: _productFocusNode,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black)),
+                                  hintText: 'Enter product name',
+                                  labelText: 'Product',
+                                  focusColor: Colors.black,
+                                  fillColor: Colors.black,
+                                  hoverColor: Colors.black),
+                              validator: validateProduct,
+                              textInputAction: TextInputAction.done,
+                              onSaved: (val) {
+                                newProduct = val;
+                                _productFocusNode.nextFocus();
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 40),
+                          Container(
+                            constraints:
+                                BoxConstraints.loose(Size.fromHeight(300.0)),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              cursorColor: Colors.black,
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
+                              focusNode: _rewardFocusNode,
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  hintText: 'Enter reward points',
+                                  labelText: 'Reward Points',
+                                  focusColor: Colors.black,
+                                  fillColor: Colors.black,
+                                  hoverColor: Colors.black),
+                              textInputAction: TextInputAction.done,
+                              validator: validateRewardPoints,
+                              onSaved: (val) {
+                                newRewardPoint = val;
+                                _rewardFocusNode.unfocus();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Center(
+                          child: FlatButton(
+                            color: Color(0xFFF6711D),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 20,
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              child: Text(
+                                'SAVE',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            onPressed: () {
+                              _validateInputs();
+                              if (newProduct != null &&
+                                  newRewardPoint != null) {
+                                _addProduct();
+                                setState(() {
+                                  newProduct = null;
+                                  newRewardPoint = null;
+                                });
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DashboardScreen(),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Color(0xCCEFC622),
+            ),
+          ),
+          SafeArea(
             child: FutureBuilder(
               future: getUserData(),
               builder: (_, snapshot) {
@@ -214,7 +376,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               elevation: 8,
                               color: Color(0xFFFFCD00),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
                               child: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 15, 0, 15),
@@ -226,17 +389,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           Text(
                                             userName,
                                             style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
+                                              color: Colors.black,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                           SizedBox(height: 8),
                                           Text(
                                             partnerLevel,
                                             style: TextStyle(
-                                                color: Color(0xFF3100FF),
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
+                                              color: Color(0xFF3100FF),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                           SizedBox(height: 5),
                                           Text(
@@ -335,7 +500,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             iconData: Icons.dashboard,
             title: "Dashboard",
           ),
-          TabData(iconData: Icons.account_circle, title: "Profile")
+          TabData(
+            iconData: Icons.add_circle,
+            title: "Add",
+          ),
+          TabData(
+            iconData: Icons.account_circle,
+            title: "Profiles",
+          ),
         ],
         onTabChangedListener: (position) {
           setState(() {
