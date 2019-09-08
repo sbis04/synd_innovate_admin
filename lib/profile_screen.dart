@@ -127,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              'Transfer to bank',
+                              'Add Bonus',
                               style: TextStyle(
                                   fontSize: 15, color: Color(0xFF228164)),
                             ),
