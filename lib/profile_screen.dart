@@ -49,11 +49,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         break;
 
       case 1:
-        levelAsset = 'level_1.svg';
+        levelAsset = 'medal_1.png';
+        break;
+
+      case 2:
+        levelAsset = 'medal_2.png';
         break;
 
       default:
-        levelAsset = 'top_level.svg';
+        levelAsset = 'medal_3.png';
     }
 
     return Scaffold(
@@ -137,9 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             SizedBox(height: 10),
                             levelAsset != ''
-                                ? SvgPicture.asset(
-                                    'assets/images/level_1.svg',
+                                ? Image.asset(
+                                    'assets/images/$levelAsset',
                                     color: Color(0xFF3100FF),
+                                    height: 120,
                                   )
                                 : Text(''),
                             SizedBox(height: 30),

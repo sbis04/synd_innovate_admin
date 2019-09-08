@@ -184,21 +184,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             snapshot.data[index].data['reward_points'];
                         String partnerLevel;
 
+                        String levelAsset;
+
                         switch (level) {
+                          case 0:
+                            partnerLevel = 'No Level';
+                            levelAsset = '';
+                            break;
+
                           case 1:
                             partnerLevel = 'Level 1 Partner';
+                            levelAsset = 'medal_1.png';
                             break;
 
                           case 2:
                             partnerLevel = 'Level 2 Partner';
-                            break;
-
-                          case 3:
-                            partnerLevel = 'Top Level Parther';
+                            levelAsset = 'medal_2.png';
                             break;
 
                           default:
-                            partnerLevel = 'No Level';
+                            partnerLevel = 'Top Level Parther';
+                            levelAsset = 'medal_3.png';
                         }
 
                         return Padding(
@@ -212,31 +218,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                                child: Column(
+                                child: Row(
                                   children: <Widget>[
-                                    Text(
-                                      userName,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      partnerLevel,
-                                      style: TextStyle(
-                                          color: Color(0xFF3100FF),
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      leads.toString() + ' Leads',
-                                      style: TextStyle(
-                                        color: Color(0xFF006CFF),
-                                        fontSize: 18,
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            userName,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            partnerLevel,
+                                            style: TextStyle(
+                                                color: Color(0xFF3100FF),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            leads.toString() + ' Leads',
+                                            style: TextStyle(
+                                              color: Color(0xFF006CFF),
+                                              fontSize: 18,
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                    )
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: levelAsset != ''
+                                          ? Image.asset(
+                                              'assets/images/$levelAsset',
+                                              color: Color(0xFF3100FF),
+                                              height: 120,
+                                            )
+                                          : Text(''),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -301,41 +323,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ];
 
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Color(0xFFFFA700),
-      //   elevation: 5.0,
-      //   // child: Icon(
-      //   //   Icons.account_circle,
-      //   //   color: Colors.black87,
-      //   //   size: 70,
-      //   // ),
-      //   child: Stack(
-      //     children: <Widget>[
-      //       CircleAvatar(
-      //         radius: 50,
-      //         backgroundColor: Colors.transparent,
-      //         child: Icon(Icons.account_circle, size: 50),
-      //       ),
-      //       CircleAvatar(
-      //         backgroundImage: NetworkImage(
-      //           imageUrl,
-      //         ),
-      //         radius: 50,
-      //         backgroundColor: Colors.transparent,
-      //       ),
-      //     ],
-      //   ),
-      //   onPressed: () {
-      //     Navigator.of(context).push(
-      //       MaterialPageRoute(
-      //         builder: (context) {
-      //           return ProfileScreen();
-      //         },
-      //       ),
-      //     );
-      //   },
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: FancyBottomNavigation(
         barBackgroundColor: Color(0xFFF6711D),
         inactiveIconColor: Colors.black54,
@@ -344,7 +331,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         circleColor: Color(0xFFFFCD00),
         initialSelection: currentPage,
         tabs: [
-          // TabData(iconData: Icons.add, title: "ADD"),
           TabData(
             iconData: Icons.dashboard,
             title: "Dashboard",
@@ -354,53 +340,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onTabChangedListener: (position) {
           setState(() {
             currentPage = position;
-            // if (position == 0) {
-            //   // _fabVisibility = false;
-            //   _fabText = 'DELETE';
-            //   _fabIcon = Icon(Icons.delete_outline);
-            // } else if (position == 1) {
-            //   // _fabVisibility = true;
-            //   _fabText = 'SAVE';
-            //   _fabIcon = Icon(Icons.save);
-            // }
           });
         },
       ),
-      // BottomAppBar(
-      //   color: Color(0xFFF6711D),
-      //   child: new Row(
-      //     mainAxisSize: MainAxisSize.max,
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: <Widget>[
-      //       Padding(
-      //         padding: const EdgeInsets.all(15.0),
-      //         child: FutureBuilder(
-      //           future: getUserData(),
-      //           builder: (_, snapshot) {
-      //             if (snapshot.connectionState == ConnectionState.waiting) {
-      //               return Text(
-      //                 'Leads',
-      //                 style: TextStyle(color: Colors.white, fontSize: 20),
-      //               );
-      //             } else if (snapshot.hasData) {
-      //               int numberOfLeads = snapshot.data['leads'];
-
-      //               return Text(
-      //                 numberOfLeads.toString() + ' Leads',
-      //                 style: TextStyle(color: Colors.white, fontSize: 20),
-      //               );
-      //             } else {
-      //               return Text(
-      //                 'No data',
-      //                 style: TextStyle(color: Colors.white, fontSize: 20),
-      //               );
-      //             }
-      //           },
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // ),
       body: _widgetOptions[currentPage],
     );
   }
