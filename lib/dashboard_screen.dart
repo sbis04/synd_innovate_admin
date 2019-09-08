@@ -3,6 +3,7 @@ import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'login_screen.dart';
 import 'profile_screen.dart';
 import 'sign_in.dart';
 
@@ -21,10 +22,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future getUserData() async {
-    DocumentSnapshot userData =
-        await documentReference.collection('user_data').document(uid).get();
+    QuerySnapshot usersData =
+        await documentReference.collection('user_data').getDocuments();
 
-    return userData;
+    return usersData.documents;
   }
 
   // void _addUserData() {
@@ -155,6 +156,144 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Container(
             decoration: BoxDecoration(
               color: Color(0xCCEFC622),
+            ),
+          ),
+          SafeArea(
+            child: FutureBuilder(
+              future: getUserData(),
+              builder: (_, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (_, index) {
+                        String userName = snapshot.data[index].data['name'];
+                        print(userName);
+                        int level = snapshot.data[index].data['level'];
+                        int leads = snapshot.data[index].data['leads'];
+                        String userImageUrl =
+                            snapshot.data[index].data['image_url'];
+                        String gender = snapshot.data[index].data['gender'];
+                        String address = snapshot.data[index].data['address'];
+                        int rewardPoints =
+                            snapshot.data[index].data['reward_points'];
+                        String partnerLevel;
+
+                        switch (level) {
+                          case 1:
+                            partnerLevel = 'Level 1 Partner';
+                            break;
+
+                          case 2:
+                            partnerLevel = 'Level 2 Partner';
+                            break;
+
+                          case 3:
+                            partnerLevel = 'Top Level Parther';
+                            break;
+
+                          default:
+                            partnerLevel = 'No Level';
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 25, 15, 0),
+                          child: InkWell(
+                            child: Card(
+                              elevation: 8,
+                              color: Color(0xFFFFCD00),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      userName,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      partnerLevel,
+                                      style: TextStyle(
+                                          color: Color(0xFF3100FF),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      leads.toString() + ' Leads',
+                                      style: TextStyle(
+                                        color: Color(0xFF006CFF),
+                                        fontSize: 18,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ProfileScreen(
+                                    userImageUrl: userImageUrl,
+                                    userName: userName,
+                                    gender: gender,
+                                    address: address,
+                                    level: level,
+                                    leads: leads,
+                                    levelString: partnerLevel,
+                                    rewardPoints: rewardPoints,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 5, 5, 0),
+                child: RaisedButton(
+                  elevation: 8,
+                  color: Colors.blue[600],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Text(
+                    "SIGN OUT",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    signOutGoogle();
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                      ModalRoute.withName('/'),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
         ],
