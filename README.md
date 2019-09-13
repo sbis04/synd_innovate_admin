@@ -1,6 +1,8 @@
 # synd_innovate_admin
 
-A new Flutter project.
+
+### Screenshots
+<img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_1.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_2.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_3.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_4.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_5.png" height="280" alt="Screenshot"/>
 
 ## Getting Started
 
