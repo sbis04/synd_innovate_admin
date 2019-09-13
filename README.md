@@ -1,7 +1,27 @@
-# synd_innovate_admin
+# Synd Innovate Admin
 
+## Login Screen
+The Admin version of the app will also have a splash screen after which they will be taken to the Login Screen. The Admin can also login with their Bank Credentials, their Social accounts or their registered mobile number as a Bank Admin. (This can be changed as per the requirement of the bank).
 
-### Screenshots
+## Dashboard Screen
+* This dashboard will be visible to the user / agents, and they can edit the products available for referral from the Bank. They can edit the reward points for each product and add new products in that will be shown in the dashboard of the user version of the app.
+
+* They can also add or edit the discount and offers available to the user which will be shown in the user version of the app in their respective dashboards.
+
+* In the bottom app bar there will be two options: 1. Dashboard 2. User profiles (sorted by their rewards and Partner Level)
+
+* The Dashboard option is selected by default when the Admin version of the app is first started.
+
+## Profiles Screen
+When the profiles option is selected from the dashboard, various user profiles will be shown those who have used the app for generating leads. The User name, partner level, number of leads generated and their respective badges will be visible to the admin.
+
+## User Screen
+* Clicking on any user will show more information of the user to the admin, Here, the Admin can make some changes to that particular profile also.
+
+* The admin can edit the Number of Leads Generated & the Reward Points of the user, Badge of the user & the Green Tick Mark beside the user name.
+
+* The admin can also give some bonus to the any user by clicking on the Add Bonus button.
+## Screenshots
 <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_1.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_2.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_3.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_4.png" height="280" alt="Screenshot"/> | <img src="https://github.com/sbis04/synd_innovate_prototype/blob/master/Admin%20Screenshot/Admin_5.png" height="280" alt="Screenshot"/>
 
 ## Getting Started
