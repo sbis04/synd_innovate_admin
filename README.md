@@ -1,6 +1,28 @@
 # Synd Innovate Admin
 ![codemagic](https://api.codemagic.io/apps/5d7aeda7ef074c25be70d4d4/5d7aeda7ef074c25be70d4d3/status_badge.svg)
 
+**Note:** The app is configured for both **iOS** and **Android**, and will run on both platforms smoothly.
+
+## Installing
+* First of all, you should have **Flutter** and **Dart SDK** set up on your system. You should also have **Android Studio** installed on your system because with it comes the Android toolchain, without which you cannot run it on any Android device or emulator. 
+
+* For running it on an iOS device, you should have a desktop or laptop with **Mac OS**, with **Xcode** installed and configured.
+
+**1.** You have to first clone this repo, using the command:
+```bash
+git clone https://github.com/sbis04/synd_innovate.git
+```
+
+**2.** Then, go into the project directory:
+```bash
+cd synd_innovate
+```
+
+**3.** To run it on an emulator or physical device, use this command:
+```bash
+flutter run
+```
+
 ## Login Screen
 The Admin version of the app will also have a splash screen after which they will be taken to the Login Screen. The Admin can also login with their Bank Credentials, their Social accounts or their registered mobile number as a Bank Admin. (This can be changed as per the requirement of the bank).
 
