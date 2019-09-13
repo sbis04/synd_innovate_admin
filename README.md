@@ -1,4 +1,5 @@
 # Synd Innovate Admin
+![codemagic](https://api.codemagic.io/apps/5d7aeda7ef074c25be70d4d4/5d7aeda7ef074c25be70d4d3/status_badge.svg)
 
 ## Login Screen
 The Admin version of the app will also have a splash screen after which they will be taken to the Login Screen. The Admin can also login with their Bank Credentials, their Social accounts or their registered mobile number as a Bank Admin. (This can be changed as per the requirement of the bank).
